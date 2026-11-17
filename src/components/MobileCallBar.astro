@@ -1,0 +1,9 @@
+---
+// One fixed bottom panel on phones (R-001, R-003). Space for it is always reserved at the bottom of the page.
+import Icon from "./Icon.astro";
+import { contacts } from "../data/clinic";
+---
+<div class="callbar" data-rec="R-001,R-003" data-callbar>
+  <a class="callbar__btn callbar__btn--main" href={contacts.phoneMain.href}><Icon name="phone" size={20} />Зателефонувати</a>
+  <a class="callbar__btn" href={contacts.map} target="_blank" rel="noopener"><Icon name="pin" size={20} />Маршрут</a>
+</div>

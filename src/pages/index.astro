@@ -1,0 +1,201 @@
+---
+import "@fontsource-variable/piazzolla/wght.css";
+import "@fontsource-variable/onest/wght.css";
+import piazzollaCyr from "@fontsource-variable/piazzolla/files/piazzolla-cyrillic-wght-normal.woff2?url";
+import Base from "../layouts/Base.astro";
+import "../styles/home.css";
+import Section from "../components/Section.astro";
+import FutureLink from "../components/FutureLink.astro";
+import Icon from "../components/Icon.astro";
+import CallBand from "../components/CallBand.astro";
+import DoctorCard from "../components/DoctorCard.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import MobileCallBar from "../components/MobileCallBar.astro";
+import { contacts, directions, groups, prices, doctors, SOON, SOON_BOOKING } from "../data/clinic";
+
+const title = "Хірургічна клініка Doladu в Ужгороді — ціни й лікарі";
+const description = "Хірургічна клініка Doladu в Ужгороді, вул. Другетів, 103: 14 напрямів для дорослих і дітей, ціни наперед, лікарі. Телефон +380 77 777 54 23";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalClinic",
+  name: "Doladu Clinic",
+  address: { "@type": "PostalAddress", streetAddress: contacts.street, addressLocality: contacts.city, postalCode: contacts.postal, addressCountry: "UA" },
+  telephone: ["+380777775423", "+380800307070"],
+  email: contacts.email.display,
+  openingHours: "Mo-Su 09:00-19:00",
+  sameAs: [contacts.instagram, contacts.tiktok],
+  medicalSpecialty: ["Surgical", "PlasticSurgery", "Urologic", "Gynecologic", "Otolaryngologic", "Pediatric", "Oncologic", "Podiatric"],
+};
+
+const services = (n: number) => {
+  const m10 = n % 10, m100 = n % 100;
+  const word = m10 === 1 && m100 !== 11 ? "послуга" : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? "послуги" : "послуг";
+  return `${n} ${word}`;
+};
+
+const journeyPhoto = (name: string) => ({
+  src: `/images/journey-${name}-420.webp`,
+  srcset: `/images/journey-${name}-420.webp 420w, /images/journey-${name}-720.webp 720w`,
+});
+const consult = journeyPhoto("hero-consultation");
+const surgery = journeyPhoto("about-team-consultation");
+const ward = journeyPhoto("about-clinic");
+---
+<Base lang="uk" title={title} description={description}>
+  <Fragment slot="head">
+    <link rel="preload" href={piazzollaCyr} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="theme-color" content="#F3F5F2" />
+    <script is:inline type="application/ld+json" data-rec="SEO-R09" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <SiteHeader slot="header" />
+
+  <!-- 1. Hero: green field, H1, one sentence, the number band as the main action -->
+  <Section id="hero" class="hero on-brand" rec="R-001,R-002,G-R003,MA-R001,SEO-R11">
+    <div class="container hero__grid">
+      <h1 class="hero__title">Хірургічна клініка в Ужгороді, де все до ладу</h1>
+      <span class="hero__line" aria-hidden="true"></span>
+      <div class="hero__text">
+        <p class="hero__lead">Консультація, діагностика, операція й відновлення для дорослих і дітей в одному місці.<span class="hero__where">{contacts.city}, {contacts.street}. <span>{contacts.hours}</span></span></p>
+        <a class="link-arrow hero__more" href="#directions">Обрати напрям<Icon name="arrow-down" size={18} /></a>
+      </div>
+      <div class="hero__band"><CallBand id="hero-call" rec="R-001,R-002" hint="Не знаєте, до кого? Адміністратор підбере лікаря." /></div>
+    </div>
+  </Section>
+
+  <!-- 2. Directions: one typographic index of 14 categories with a patient filter -->
+  <Section id="directions" class="directions" rec="R-006">
+    <div class="container directions__grid">
+      <div class="directions__main">
+        <h2 class="h2">14 напрямів: знайдіть свій</h2>
+        <div class="tabs" role="group" aria-label="Показати напрями" data-tabs hidden>
+          {groups.map((g, i) => (
+            <button type="button" class="tabs__btn" data-group={g.id} aria-pressed={i === 0 ? "true" : "false"}>{g.label}</button>
+          ))}
+        </div>
+        <p class="index" data-index>
+          {directions.map((d, i) => (
+            <span class="index__item" data-groups={d.groups.join(" ")}>
+              <FutureLink note={SOON} class="index__link">{d.name}</FutureLink><sup class="index__count" aria-hidden="true">{d.count}</sup><span class="visually-hidden"> ({services(d.count)})</span>{i < directions.length - 1 ? ", " : "."}
+            </span>
+          ))}
+        </p>
+        <p class="directions__hint">Число біля напряму — кількість послуг у ньому.</p>
+      </div>
+      <aside class="directions__aside" aria-label="Допомога з вибором">
+        <div class="aside-card">
+          <p class="aside-card__title">Не знайшли свого?</p>
+          <p>Адміністратор підбере лікаря за телефоном.</p>
+          <a class="aside-card__phone" href={contacts.phoneMain.href} data-rec="R-001">{contacts.phoneMain.display}</a>
+        </div>
+      </aside>
+    </div>
+  </Section>
+
+  <!-- 3. Prices: seven steps in ascending order -->
+  <Section id="prices" class="prices" rec="R-015,MA-R002,S-R014">
+    <div class="container">
+      <h2 class="h2">Ціни наперед</h2>
+      <ol class="stairs">
+        {prices.map((p, i) => (
+          <li class="stairs__step" style={`--i:${i};--reveal-delay:${i * 60}ms`} data-reveal>
+            <span class="stairs__price">{p.from && <span class="stairs__from">від </span>}{p.price}<span class="stairs__cur"> ₴</span></span>
+            <span class="stairs__name">{p.name}</span>
+            {p.note && <span class="stairs__note">{p.note}</span>}
+          </li>
+        ))}
+      </ol>
+      <p class="prices__note">Кінцеву вартість операції визначає лікар після консультації.</p>
+      <div class="actions">
+        <a class="btn btn--brand" href={contacts.phoneMain.href} data-rec="R-001"><Icon name="phone" size={20} />Зателефонувати</a>
+        <FutureLink note={SOON} class="actions__future">Усі послуги з цінами</FutureLink>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 4. Journey: one sentence from consultation to discharge, with inline photos -->
+  <Section id="journey" class="journey on-brand">
+    <div class="container journey__grid">
+      <div class="journey__main">
+        <h2 class="h2">Від консультації до виписки</h2>
+        <p class="journey__sentence">
+          <span class="journey__stage"><span class="journey__frame" data-reveal><img class="journey__photo" src={consult.src} srcset={consult.srcset} sizes="(min-width: 768px) 160px, 100vw" width="420" height="280" loading="lazy" decoding="async" alt="Лікарка Doladu Clinic консультує пацієнтку в кабінеті" /></span><span class="nowrap">Консультація <Icon name="arrow-right" size={28} class="journey__arrow" /></span></span>
+          <span class="journey__stage">діагностика: лабораторна, ендоскопічна, <span class="nowrap">УЗД <Icon name="arrow-right" size={28} class="journey__arrow" /></span></span>
+          <span class="journey__stage"><span class="journey__frame" data-reveal style="--reveal-delay:120ms"><img class="journey__photo" src={surgery.src} srcset={surgery.srcset} sizes="(min-width: 768px) 160px, 100vw" width="420" height="280" loading="lazy" decoding="async" alt="Хірургічна команда Doladu Clinic під час операції" /></span>операція в одній із двох <span class="nowrap">операційних <Icon name="arrow-right" size={28} class="journey__arrow" /></span></span>
+          <span class="journey__stage"><span class="journey__frame" data-reveal style="--reveal-delay:240ms"><img class="journey__photo" src={ward.src} srcset={ward.srcset} sizes="(min-width: 768px) 160px, 100vw" width="420" height="280" loading="lazy" decoding="async" alt="Післяопераційна палата Doladu Clinic" /></span>відновлення в палаті з цілодобовим наглядом</span>
+        </p>
+      </div>
+      <p class="journey__fact">
+        <span class="journey__num">180+</span>
+        <span class="journey__caption">операцій за перший рік роботи, з червня 2025</span>
+      </p>
+    </div>
+  </Section>
+
+  <!-- 5. Doctors: eight real doctors, stepped grid -->
+  <Section id="doctors" class="doctors">
+    <div class="container">
+      <div class="doctors__head">
+        <h2 class="h2">Хто вас лікуватиме</h2>
+        <FutureLink note={SOON} class="doctors__all"><span data-rec="R-006">Усі 26 лікарів</span></FutureLink>
+      </div>
+      <div class="doctors__strip" tabindex="0" role="region" aria-label="Лікарі Doladu Clinic, прокрутіть убік">
+        <ul class="doctors__grid">
+          {doctors.map((d) => <li><DoctorCard {...d} /></li>)}
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 6. Digital: compact, does not compete with the call -->
+  <Section id="digital" class="digital">
+    <div class="container digital__grid">
+      <div class="digital__head">
+        <h2 class="h2">Онлайн, без черги на рецепції</h2>
+        <p class="digital__call">Або просто зателефонуйте: <a href={contacts.phoneMain.href}>{contacts.phoneMain.display}</a></p>
+      </div>
+      <ol class="digital__list">
+        <li>
+          <span class="digital__num" aria-hidden="true"></span><h3 class="digital__title"><FutureLink note={SOON}>AI-підбір лікаря</FutureLink></h3>
+          <p>Опишіть, що турбує: сервіс уточнить і запропонує напрям, лікаря й послугу.</p>
+        </li>
+        <li>
+          <span class="digital__num" aria-hidden="true"></span><h3 class="digital__title"><FutureLink note={SOON}>Декларація з сімейним лікарем</FutureLink></h3>
+          <p>Три кроки: фото документів, внесення в eHealth, код із SMS.</p>
+        </li>
+        <li>
+          <span class="digital__num" aria-hidden="true"></span><h3 class="digital__title"><FutureLink note={SOON}>Кабінет пацієнта</FutureLink></h3>
+          <p>«Моя медкартка» з входом через Telegram-бот клініки.</p>
+        </li>
+      </ol>
+    </div>
+  </Section>
+
+  <!-- 7. Contacts: green field, the number band again, every real channel -->
+  <Section id="contacts" class="contacts on-brand" rec="R-007,R-008,MA-R003,S-R013">
+    <div class="container contacts__grid">
+      <div class="contacts__main">
+        <h2 class="h2">Другетів, 103. Щодня 9:00–19:00</h2>
+        <p class="contacts__addr">{contacts.street}, {contacts.city}, {contacts.postal}<br />{contacts.hours}</p>
+        <a class="link-arrow" href={contacts.map} target="_blank" rel="noopener">Прокласти маршрут<Icon name="arrow-right" size={18} /></a>
+      </div>
+      <ul class="contacts__list">
+        <li><span class="contacts__label">Другий номер</span><a href={contacts.phoneSecond.href}>{contacts.phoneSecond.display}</a></li>
+        <li><span class="contacts__label">Пошта</span><a href={contacts.email.href}>{contacts.email.display}</a></li>
+        <li><span class="contacts__label">Соцмережі</span><span class="contacts__socials"><a href={contacts.instagram} target="_blank" rel="noopener">Instagram</a><a href={contacts.tiktok} target="_blank" rel="noopener">TikTok</a></span></li>
+        <li><span class="contacts__label">Онлайн-запис</span><FutureLink note={SOON_BOOKING}>Записатися онлайн</FutureLink></li>
+      </ul>
+      <div class="contacts__band"><CallBand rec="R-001" /></div>
+    </div>
+  </Section>
+
+  <SiteFooter slot="footer" />
+  <MobileCallBar slot="footer" />
+</Base>
+
+<script>
+  import "../scripts/home";
+</script>

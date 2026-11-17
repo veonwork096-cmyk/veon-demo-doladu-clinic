@@ -1,0 +1,50 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { contacts, SOON } from "../data/clinic";
+const nav = [
+  { href: "#directions", label: "Напрями" },
+  { href: "#prices", label: "Ціни" },
+  { href: "#doctors", label: "Лікарі" },
+  { href: "#contacts", label: "Контакти" },
+];
+---
+<header class="header">
+  <div class="container header__row">
+    <a class="header__logo" href="#top" aria-label="Doladu Clinic, на початок сторінки">
+      <img src="/images/doladu-logo.webp" width="400" height="80" alt="Doladu Clinic" loading="eager" fetchpriority="high" />
+    </a>
+    <nav class="header__nav" aria-label="Основна навігація" data-rec="R-016">
+      <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+    </nav>
+    <div class="header__tools">
+      <a class="header__phone" href={contacts.phoneMain.href} data-rec="R-001">{contacts.phoneMain.display}</a>
+      <FutureLink note={SOON} class="header__future">Вхід</FutureLink>
+      <FutureLink note={SOON} class="header__future"><span aria-hidden="true">UA</span><span class="visually-hidden">Мова: українська</span></FutureLink>
+    </div>
+    <a class="header__call" href={contacts.phoneMain.href} aria-label={`Зателефонувати ${contacts.phoneMain.display}`} data-rec="R-001">
+      <Icon name="phone" size={22} />
+    </a>
+    <details class="menu">
+      <summary class="menu__toggle" aria-label="Меню">
+        <Icon name="menu" size={22} class="menu__open" />
+        <Icon name="close" size={22} class="menu__close" />
+      </summary>
+      <div class="menu__panel">
+        <nav aria-label="Меню" data-rec="R-016">
+          <ul class="menu__links">{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+        </nav>
+        <ul class="menu__contacts">
+          <li><a href={contacts.phoneMain.href}>{contacts.phoneMain.display}</a></li>
+          <li><a href={contacts.phoneSecond.href}>{contacts.phoneSecond.display}</a></li>
+          <li><a href={contacts.instagram} target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href={contacts.tiktok} target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+        <div class="menu__future">
+          <FutureLink note={SOON}>Вхід</FutureLink>
+          <FutureLink note={SOON}>Мова: UA</FutureLink>
+        </div>
+      </div>
+    </details>
+  </div>
+</header>

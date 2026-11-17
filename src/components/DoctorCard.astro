@@ -1,0 +1,17 @@
+---
+interface Props { name: string; role: string; photo: string; }
+const { name, role, photo } = Astro.props;
+const base = `/images/doctor-${photo}`;
+---
+<article class="doctor">
+  <div class="doctor__frame">
+    <img
+      src={`${base}-400.webp`}
+      srcset={`${base}-400.webp 400w, ${base}-640.webp 640w`}
+      sizes="(min-width: 1024px) 296px, (min-width: 768px) 30vw, 72vw"
+      width="400" height="500" loading="lazy" decoding="async"
+      alt={`${name}, ${role.toLowerCase()}, Doladu Clinic`} />
+  </div>
+  <h3 class="doctor__name">{name}</h3>
+  <p class="doctor__role">{role}</p>
+</article>

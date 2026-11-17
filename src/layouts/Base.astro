@@ -1,0 +1,34 @@
+---
+import "../styles/tokens.css";
+import "../styles/global.css";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; }
+const { lang, title, description, canonical } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} data-rec="SEO-R06" />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="images/og-doladu.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="noindex" />
+    <slot name="head" />
+    <style is:global>html, body { overflow-x: clip; }</style>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{lang.startsWith("uk") ? "До змісту" : lang.startsWith("ru") ? "К содержанию" : "Skip to content"}</a>
+    <slot name="header" />
+    <main id="main"><slot /></main>
+    <slot name="footer" />
+    <script src="../scripts/reveal.ts"></script>
+  </body>
+</html>

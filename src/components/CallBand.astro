@@ -1,0 +1,14 @@
+---
+// Signature: the main phone number set as a headline and a button at once (R-001, R-002).
+import Icon from "./Icon.astro";
+import { contacts } from "../data/clinic";
+interface Props { id?: string; rec?: string; hint?: string; }
+const { id, rec, hint } = Astro.props;
+---
+<a class="callband" id={id} href={contacts.phoneMain.href} data-rec={rec}>
+  <span class="callband__text">
+    <span class="callband__label">Зателефонувати<Icon name="arrow-right" size={22} class="callband__arrow" /></span>
+    {hint && <span class="callband__hint">{hint}</span>}
+  </span>
+  <span class="callband__number">{contacts.phoneMain.display}</span>
+</a>

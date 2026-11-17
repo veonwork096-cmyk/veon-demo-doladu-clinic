@@ -1,0 +1,78 @@
+/* Hallmark · shape: green field, typographic index, price stairs, journey sentence · genre: editorial · theme: custom · job: book · idea: "Doladu — «до ладу»: усе на своєму місці й на виду — номер, ціна, напрям, лікар, адреса" · vibe: "точний, спокійний, відкритий, фірмово-зелений"
+ * paper: #F3F5F2 · accent: #D9BD82 · display: Piazzolla · body: Onest · hero: зелене поле, H1 у 3 рядки, номер-смуга як головна дія · nav: світла липка шапка з 4 якорями й номером · footer: світлий, логотип і контакти · imagery: client photos · signature: номер із п'ятьма сімками як заголовок-кнопка і покажчик напрямів суцільним текстом
+ * axes: light/roman-serif/warm · surface: absolute · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, client photos are small (≤1086 px), so the hero is typographic and photos appear only inline in the journey sentence and doctor portraits */
+/* Hallmark · waive 7b · --color-surface #FFFFFF on #prices and #digital · approved concept palette (veon-concept colors) sets white for the price stairs; contrast table is built on it */
+/* Hallmark · waive 25 · p.index is 14 direction names plus hidden service counts for screen readers, not running prose · the directions index is the page signature, about 5 names a line on 1440 */
+/* Hallmark · waive 23 · gold number band is the one primary action and the signature, cut to about 96 px on 1440 · concept.md puts the phone number as the hero image; gold only on the green field */
+/* Hallmark · answer 11 · portrait scale 1.03 inside a fixed frame is effect 5 of concept.md «Рух»; off under reduced motion */
+/* Hallmark · answer 41 · accent-ink #7A5E22 is only used on paper/white, never on the gold accent */
+/* Hallmark · answer F4 · one primary per block: gold number band (hero, contacts), green call button near prices; pressed filter tab is a state, not a CTA */
+/* Hallmark · answer 28a · LCP is the H1 text; doctor and footer images are below the fold */
+/* Client design tokens: only from design/concept.md (veon-concept: colors, fonts). */
+
+/* Metric-adjusted fallbacks so the swap to the web fonts does not shift the layout. */
+@font-face { font-family: "Piazzolla fallback"; src: local("Georgia"); size-adjust: 97%; ascent-override: 96%; descent-override: 26%; line-gap-override: 0%; }
+@font-face { font-family: "Onest fallback"; src: local("Arial"); size-adjust: 101%; ascent-override: 98%; descent-override: 26%; line-gap-override: 0%; }
+
+:root {
+  /* colour roles (concept.md §8 «Палітра») */
+  --color-brand: #0E513A;
+  --color-brand-deep: #0A3527;
+  --color-bg: #F3F5F2;
+  --color-surface: #FFFFFF;
+  --color-text: #10221A;
+  --color-muted: #4B5D54;
+  --color-accent: #D9BD82;
+  --color-accent-ink: #7A5E22;
+  --color-on-brand: #F3F5F2;
+  --color-on-brand-muted: #B8CCC2;
+  --color-line: #B9C6BE;
+  --color-line-on-brand: rgb(217 189 130 / 0.45);
+  --focus: var(--color-brand);
+
+  /* type */
+  --font-display: "Piazzolla Variable", "Piazzolla fallback", Georgia, serif;
+  --font-body: "Onest Variable", "Onest fallback", Arial, sans-serif;
+  --fs-h1: clamp(2.5rem, 1.386rem + 4.571vw, 5.5rem);        /* 40 → 88 */
+  --fs-number: clamp(1.5rem, 0.9rem + 4vw, 4.5rem);           /* 30 → 72 */
+  --fs-big: clamp(4.5rem, 3.386rem + 4.571vw, 7.5rem);        /* 72 → 120 */
+  --fs-h2: clamp(2rem, 1.536rem + 1.905vw, 3.25rem);          /* 32 → 52 */
+  --fs-index: clamp(1.625rem, 1.207rem + 1.714vw, 2.75rem);   /* 26 → 44 */
+  --fs-h3: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem);        /* 20 → 24 */
+  --fs-lead: clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem);     /* 18 → 20 */
+  --fs-body: clamp(1rem, 0.977rem + 0.095vw, 1.0625rem);      /* 16 → 17 */
+  --fs-small: clamp(0.875rem, 0.852rem + 0.095vw, 0.9375rem); /* 14 → 15 */
+  --lh-tight: 1.05;
+  --lh-head: 1.12;
+  --lh-text: 1.55;
+
+  /* 8 px rhythm: 8, 16, 24, 40, 64, 104, 160 */
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2.5rem;
+  --s-5: 4rem;
+  --s-6: 6.5rem;
+  --s-7: 10rem;
+  --section-y: clamp(4rem, 3.4rem + 0.76vw, 5rem);             /* 64 → 80 */
+
+  /* layout */
+  --container: 1280px;
+  --space: clamp(1.25rem, 0.804rem + 1.143vw, 2rem);          /* page margins 20 → 32 */
+  --gap: 1.5rem;
+  --header-h: 4rem;
+  --bar-h: 4rem;
+  --radius: 4px;
+  --radius-photo: 2px;
+  --tap: 2.75rem;                                             /* 44 px minimum target */
+
+  /* motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+  --dur-fast: 200ms;
+}
+
+@media (min-width: 1024px) {
+  :root { --header-h: 4.5rem; }
+}
