@@ -13,6 +13,7 @@ import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import MobileCallBar from "../components/MobileCallBar.astro";
 import { contacts, directions, groups, prices, doctors, SOON, SOON_BOOKING } from "../data/clinic";
+const BASE = (import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/");
 
 const title = "Хірургічна клініка Doladu в Ужгороді — ціни й лікарі";
 const description = "Хірургічна клініка Doladu в Ужгороді, вул. Другетів, 103: 14 напрямів для дорослих і дітей, ціни наперед, лікарі. Телефон +380 77 777 54 23";
@@ -36,8 +37,8 @@ const services = (n: number) => {
 };
 
 const journeyPhoto = (name: string) => ({
-  src: `/images/journey-${name}-420.webp`,
-  srcset: `/images/journey-${name}-420.webp 420w, /images/journey-${name}-720.webp 720w`,
+  src: `${BASE}images/journey-${name}-420.webp`,
+  srcset: `${BASE}images/journey-${name}-420.webp 420w, ${BASE}images/journey-${name}-720.webp 720w`,
 });
 const consult = journeyPhoto("hero-consultation");
 const surgery = journeyPhoto("about-team-consultation");
@@ -46,7 +47,7 @@ const ward = journeyPhoto("about-clinic");
 <Base lang="uk" title={title} description={description}>
   <Fragment slot="head">
     <link rel="preload" href={piazzollaCyr} as="font" type="font/woff2" crossorigin />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href={`${BASE}favicon.png`} />
     <meta name="theme-color" content="#F3F5F2" />
     <script is:inline type="application/ld+json" data-rec="SEO-R09" set:html={JSON.stringify(jsonLd)} />
   </Fragment>

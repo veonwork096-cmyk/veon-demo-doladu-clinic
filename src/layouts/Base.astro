@@ -16,7 +16,7 @@ const { lang, title, description, canonical } = Astro.props;
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={title} data-rec="SEO-R06" />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="images/og-doladu.jpg" />
+    <meta property="og:image" content={`${(import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/")}images/og-doladu.jpg`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
